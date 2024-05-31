@@ -17,4 +17,4 @@ make
 - `G` to show/hide the grid display
 
 ## Demo
-[![Demo](https://github.com/BrickSigma/C-Snake/tree/main/assets/image.png)](https://github.com/BrickSigma/C-Snake/tree/main/assets/demo.mp4)
+[![Demo](https://github.com/BrickSigma/C-Snake/tree/main/assets/image.png)](https://github.com/BrickSigma/C-Snake/tree/main/assets/demo.mpg)
