@@ -15,6 +15,3 @@ make
 - Arrow keys to move the snake
 - `P` to play again
 - `G` to show/hide the grid display
-
-## Demo
-[![Demo](https://github.com/BrickSigma/C-Snake/tree/main/assets/image.png)](https://github.com/BrickSigma/C-Snake/tree/main/assets/demo.mpg)
