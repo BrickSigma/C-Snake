@@ -13,7 +13,7 @@
 typedef struct Node
 {
     int x, y;
-    void *next;
+    struct Node *next;
 } Node;
 
 /**
@@ -34,24 +34,24 @@ typedef struct LinkedList
  * @param x x position of node
  * @param y y position of node
  */
-Node *newNode(int x, int y);
+Node *NewNode(int x, int y);
 
 /**
  * Used to create a new linked list.
  *
  * @returns Pointer to the new linked list. Returns `NULL` on error.
  */
-LinkedList *newLinkedList();
+LinkedList *LinkedListNew();
 
 /**
  * Get the pointer to the head node of the linked list.
  */
-Node *getHead(LinkedList *list);
+Node *LinkedListGetHead(LinkedList *list);
 
 /**
  * Get the pointer to the tail node of the linked list.
  */
-Node *getTail(LinkedList *list);
+Node *LinkedListGetTail(LinkedList *list);
 
 /**
  * Insert a new node at the head of a linked list.
@@ -59,7 +59,7 @@ Node *getTail(LinkedList *list);
  * @param list
  * @param newNode
  */
-void insertHead(LinkedList *list, Node *newNode);
+void LinkedListInsertHead(LinkedList *list, Node *newNode);
 
 /**
  * Insert a new node at the tail of a linked list.
@@ -67,26 +67,26 @@ void insertHead(LinkedList *list, Node *newNode);
  * @param list
  * @param newNode
  */
-void insertTail(LinkedList *list, Node *newNode);
+void LinkedListInsertTail(LinkedList *list, Node *newNode);
 
 /**
  * Remove the head node of the linked list.
  *
  * @returns The pointer to the head node. Returns `NULL` if the list is empty.
  */
-Node *removeHead(LinkedList *list);
+Node *LinkedListRemoveHead(LinkedList *list);
 
 /**
  * Remove the tail node of the linked list.
  *
  * @returns The pointer to the tail node. Returns `NULL` if the list is empty.
  */
-Node *removeTail(LinkedList *list);
+Node *LinkedListRemoveTail(LinkedList *list);
 
 /**
  * Used to output the contents of the linked list.
  */
-void traverseLinkedList(LinkedList *list);
+void LinkedListTraverse(LinkedList *list);
 
 /**
  * Used to call a function on every item/node in the linked list.
@@ -94,7 +94,7 @@ void traverseLinkedList(LinkedList *list);
  * @param list
  * @param func function pointer to process node, eg: `void func(Node *node) {...}`
  */
-void forEachLinkedList(LinkedList *list, void (*func)(Node *));
+void LinkedListForEach(LinkedList *list, void (*func)(Node *));
 
 /**
  *  Compare the elements of the linked list with the `cmp` argument node.
@@ -105,16 +105,16 @@ void forEachLinkedList(LinkedList *list, void (*func)(Node *));
  *
  * @return `true` if any one element satisfies the condition, or `false` if otherwise.
  */
-bool anyLinkedList(LinkedList *list, Node *cmp, bool (*func)(Node *, Node *));
+bool LinkedListContains(LinkedList *list, Node *cmp);
 
 /**
  * Delete all the nodes from the linked list.
  */
-void clearLinkedList(LinkedList *list);
+void LinkedListClear(LinkedList *list);
 
 /**
  * Delete the entire linked list. This will also delete and free all the nodes within the list.
  */
-void deleteLinkedList(LinkedList *list);
+void LinkedListDelete(LinkedList *list);
 
 #endif

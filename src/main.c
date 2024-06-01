@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <LinkedList.h>
+#include "LinkedList.h"
 
 #define FPS 20
 
@@ -19,27 +19,20 @@ void DrawNode(Node *node)
     DrawRectangle(GRID_WIDTH * node->x, GRID_WIDTH * node->y, GRID_WIDTH, GRID_WIDTH, BLACK);
 }
 
-/// @brief Used to check if the head has intersected with the body.
-/// @return
-bool nodeInBody(Node *element, Node *node)
-{
-    return (element->x == node->x) && (element->y == node->y);
-}
-
-void placeApple(LinkedList *list, Node *apple)
+void PlaceApple(LinkedList *list, Node *apple)
 {
     do
     {
         apple->x = RANDOM(0, GRID_SIZE);
         apple->y = RANDOM(0, GRID_SIZE);
-    } while (anyLinkedList(list, apple, nodeInBody));
+    } while (LinkedListContains(list, apple));
 }
 
-void resetGame(LinkedList *list, Node *apple, int *keyPressed)
+void ResetGame(LinkedList *list, Node *apple, int *keyPressed)
 {
-    clearLinkedList(list);
-    insertTail(list, newNode(GRID_SIZE / 2, GRID_SIZE / 2));
-    placeApple(list, apple);
+    LinkedListClear(list);
+    LinkedListInsertTail(list, NewNode(GRID_SIZE / 2, GRID_SIZE / 2));
+    PlaceApple(list, apple);
     *keyPressed = RANDOM(262, 266);
 }
 
@@ -52,11 +45,11 @@ int main()
 
     unsigned long frameCounter = 0;
 
-    LinkedList *list = newLinkedList();
-    Node *apple = newNode(0, 0);
+    LinkedList *list = LinkedListNew();
+    Node *apple = NewNode(0, 0);
     int keyPressed;
 
-    resetGame(list, apple, &keyPressed);
+    ResetGame(list, apple, &keyPressed);
 
     bool gameOver = false;
     bool showGrid = true;
@@ -82,7 +75,7 @@ int main()
 
         if (gameOver && IsKeyDown(KEY_P))
         {
-            resetGame(list, apple, &keyPressed);
+            ResetGame(list, apple, &keyPressed);
             gameOver = false;
         }
 
@@ -93,8 +86,8 @@ int main()
 
         if (frameCounter % 8 == 0 && !gameOver)
         {
-            Node *head = getHead(list);
-            Node *tail = removeTail(list);
+            Node *head = LinkedListGetHead(list);
+            Node *tail = LinkedListRemoveTail(list);
             if (keyPressed == KEY_UP || keyPressed == KEY_DOWN)
             {
                 tail->y = head->y + ((keyPressed == KEY_UP) ? -1 : 1);
@@ -116,18 +109,18 @@ int main()
                 tail->y = head->y;
             }
             // Check if the head has enetered the body.
-            if (anyLinkedList(list, tail, nodeInBody))
+            if (LinkedListContains(list, tail))
             {
                 gameOver = true;
             }
 
-            insertHead(list, tail);
+            LinkedListInsertHead(list, tail);
 
             // Check if the apple is eaten.
-            if (anyLinkedList(list, apple, nodeInBody))
+            if (LinkedListContains(list, apple))
             {
-                placeApple(list, apple);
-                insertTail(list, newNode(getTail(list)->x, getTail(list)->y));
+                PlaceApple(list, apple);
+                LinkedListInsertTail(list, NewNode(LinkedListGetTail(list)->x, LinkedListGetTail(list)->y));
             }
         }
 
@@ -144,7 +137,7 @@ int main()
                 DrawLine(h * GRID_WIDTH, 0, h * GRID_WIDTH, SCREEN_HEIGHT, BLACK);
             }
         }
-        forEachLinkedList(list, DrawNode);
+        LinkedListForEach(list, DrawNode);
         DrawRectangle(GRID_WIDTH * apple->x, GRID_WIDTH * apple->y, GRID_WIDTH, GRID_WIDTH, RED);
 
         if (gameOver)
@@ -157,7 +150,7 @@ int main()
         frameCounter++;
     }
 
-    deleteLinkedList(list);
+    LinkedListDelete(list);
     free(apple);
 
     CloseWindow();

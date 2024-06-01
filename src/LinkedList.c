@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-Node *newNode(int x, int y)
+Node *NewNode(int x, int y)
 {
     Node *node = (Node *)malloc(sizeof(Node));
     node->x = x;
@@ -12,7 +12,7 @@ Node *newNode(int x, int y)
     return node;
 }
 
-LinkedList *newLinkedList()
+LinkedList *LinkedListNew()
 {
     LinkedList *list = (LinkedList *)malloc(sizeof(LinkedList));
     if (list == NULL)
@@ -24,17 +24,17 @@ LinkedList *newLinkedList()
     return list;
 }
 
-Node *getHead(LinkedList *list)
+Node *LinkedListGetHead(LinkedList *list)
 {
     return list->head;
 }
 
-Node *getTail(LinkedList *list)
+Node *LinkedListGetTail(LinkedList *list)
 {
     return list->tail;
 }
 
-void insertHead(LinkedList *list, Node *newNode)
+void LinkedListInsertHead(LinkedList *list, Node *newNode)
 {
     if (list->head == NULL)
     {
@@ -47,7 +47,7 @@ void insertHead(LinkedList *list, Node *newNode)
     return;
 }
 
-void insertTail(LinkedList *list, Node *newNode)
+void LinkedListInsertTail(LinkedList *list, Node *newNode)
 {
     if (list->head == NULL)
     {
@@ -59,7 +59,7 @@ void insertTail(LinkedList *list, Node *newNode)
     list->tail = newNode;
 }
 
-Node *removeHead(LinkedList *list)
+Node *LinkedListRemoveHead(LinkedList *list)
 {
     if (list->head == NULL)
     {
@@ -81,7 +81,7 @@ Node *removeHead(LinkedList *list)
     }
 }
 
-Node *removeTail(LinkedList *list)
+Node *LinkedListRemoveTail(LinkedList *list)
 {
     if (list->head == NULL)
     {
@@ -108,58 +108,38 @@ Node *removeTail(LinkedList *list)
     return current;
 }
 
-void traverseLinkedList(LinkedList *list)
+void LinkedListTraverse(LinkedList *list)
 {
-    if (list->head == NULL)
+    for (Node *node = list->head; node; node = node->next)
     {
-        return;
+        printf("%d %d\n", node->x, node->y);
     }
-
-    Node *current = (Node *)list->head;
-    do
-    {
-        printf("%d %d\n", current->x, current->y);
-        current = (Node *)current->next;
-    } while (current != NULL);
 }
 
-void forEachLinkedList(LinkedList *list, void (*func)(Node *))
+void LinkedListForEach(LinkedList *list, void (*func)(Node *))
 {
-    if (list->head == NULL)
+    for (Node *node = list->head; node; node = node->next)
     {
-        return;
+        func(node);
     }
-    Node *current = (Node *)list->head;
-    do
-    {
-        func(current);
-        current = (Node *)current->next;
-    } while (current != NULL);
 }
 
-bool anyLinkedList(LinkedList *list, Node *cmp, bool (*func)(Node *, Node *))
+bool LinkedListContains(LinkedList *list, Node *cmp)
 {
-    if (list->head == NULL)
+    for (Node *node = list->head; node; node = node->next)
     {
-        return false;
-    }
-    Node *current = (Node *)list->head;
-    do
-    {
-        if (func(current, cmp))
+        if (node->x == cmp->x && node->y == cmp->y)
         {
             return true;
         }
-        current = (Node *)current->next;
-    } while (current != NULL);
+    }
     return false;
 }
 
-void clearLinkedList(LinkedList *list)
+void LinkedListClear(LinkedList *list)
 {
     if (list->head != NULL)
     {
-
         Node *current = list->head;
         do
         {
@@ -172,19 +152,9 @@ void clearLinkedList(LinkedList *list)
     list->tail = NULL;
 }
 
-void deleteLinkedList(LinkedList *list)
+void LinkedListDelete(LinkedList *list)
 {
-    if (list->head != NULL)
-    {
-
-        Node *current = list->head;
-        do
-        {
-            Node *toDelete = current;
-            current = (Node *)current->next;
-            free(toDelete);
-        } while (current != NULL);
-    }
+    LinkedListClear(list);
 
     free(list);
 }
